@@ -140,7 +140,31 @@ public class Controller {
         Access_token accessToken = accessRepository.findByToken(token).get(0);
         Users user = accessToken.getUser();
         Habit original_habit = habitRepository.getReferenceById(habit.getId());
+        original_habit.setTitle(habit.getTitle());
+        original_habit.setDescription(habit.getDescription());
+        if(!original_habit.getLastCompleted().equals(habit.getLastCompleted())){
+            Level level = levelRepository.findByUser(user).get(0);
+            if(level.getExperience()+30>=1000){
+                level.setExperience(level.getExperience()+30-1000);
+                level.setLevel(level.getLevel()+1);
+            }
+            else {
+                level.setExperience(level.getExperience()+30);
+            }
+            levelRepository.save(level);
+        }
+        original_habit.setLastCompleted(habit.getLastCompleted());
+        habitRepository.save(original_habit);
+
         return habit;
+    }
+    @DeleteMapping("/api/deleteHabit")
+    public Habit deleteHabit(@RequestBody Habit habit,@RequestBody String token){
+        Access_token accessToken = accessRepository.findByToken(token).get(0);
+        Users user = accessToken.getUser();
+        Habit original_Habit=habitRepository.getReferenceById(habit.getId());
+        habitRepository.delete(original_Habit);
+        return original_Habit;
     }
 
 
