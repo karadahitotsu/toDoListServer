@@ -29,7 +29,7 @@ public class Habit {
     private Integer streak = 0; // Initialize streak to 0
     @Temporal(TemporalType.TIMESTAMP)
     private Timestamp nextComplete;
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date lastCompleted;
 
     @CreatedDate

@@ -1,5 +1,7 @@
 package karadahitotsu.todolist.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -7,10 +9,11 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.sql.Timestamp;
-
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "users")
 public class Users {
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,13 +26,16 @@ public class Users {
 
     @Column(nullable = false)
     private String password;
+    @JsonIgnore
     @Column(nullable = false)
     private String Salt;
+    @JsonIgnore
     private Boolean verificated = false;
     @CreationTimestamp
     @Column(name = "created_at")
     private Timestamp createdAt;
 
+    @JsonIgnore
     @UpdateTimestamp
     @Column(name = "updated_at")
     private Timestamp updatedAt;
